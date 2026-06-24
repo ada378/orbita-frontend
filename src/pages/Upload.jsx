@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
+import { toast } from 'react-toastify';
 import { uploadAPI, itineraryAPI } from '../utils/api';
 
 export default function Upload() {
@@ -35,7 +36,9 @@ export default function Upload() {
       formData.append('file', file);
       const res = await uploadAPI.upload(formData);
       setUploadResult(res.data.upload);
+      toast.success('File uploaded & text extracted!');
     } catch (err) { setError(err.response?.data?.message || 'Upload failed');
+      toast.error('Upload failed');
     } finally { setUploading(false); }
   };
 
@@ -44,8 +47,10 @@ export default function Upload() {
     setGenerating(true);
     try {
       const res = await itineraryAPI.create({ uploadId: uploadResult.id });
+      toast.success('AI itinerary generated!');
       navigate(`/itinerary/${res.data.itinerary._id}`);
     } catch (err) { setError(err.response?.data?.message || 'Generation failed');
+      toast.error('Itinerary generation failed');
     } finally { setGenerating(false); }
   };
 

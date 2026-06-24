@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { itineraryAPI } from '../utils/api';
 import ItineraryCard from '../components/ItineraryCard';
 
@@ -22,7 +23,8 @@ export default function Dashboard() {
     try {
       await itineraryAPI.delete(id);
       setItineraries(itineraries.filter(i => i._id !== id));
-    } catch (err) { console.error('Delete failed:', err); }
+      toast.success('Trip deleted');
+    } catch (err) { toast.error('Delete failed'); }
   };
 
   if (loading) return <div className="page-container"><div className="loading">Loading your trips...</div></div>;

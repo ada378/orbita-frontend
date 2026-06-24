@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { itineraryAPI } from '../utils/api';
 
 export default function ItineraryDetail() {
@@ -20,7 +21,7 @@ export default function ItineraryDetail() {
   const handleCopyLink = () => {
     const shareUrl = `${window.location.origin}/shared/${itinerary.shareId}`;
     navigator.clipboard.writeText(shareUrl);
-    alert('Share link copied to clipboard!');
+    toast.success('Share link copied!');
   };
 
   if (loading) return <div className="page-container"><div className="loading">Loading itinerary...</div></div>;

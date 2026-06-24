@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import { toast } from 'react-toastify';
 import { authAPI } from '../utils/api';
 
 const AuthContext = createContext();
@@ -25,6 +26,7 @@ export const AuthProvider = ({ children }) => {
     const res = await authAPI.login({ email, password });
     localStorage.setItem('token', res.data.token);
     setUser(res.data.user);
+    toast.success('Login successful!');
     return res.data;
   };
 
@@ -32,12 +34,14 @@ export const AuthProvider = ({ children }) => {
     const res = await authAPI.register({ name, email, password });
     localStorage.setItem('token', res.data.token);
     setUser(res.data.user);
+    toast.success('Account created successfully!');
     return res.data;
   };
 
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
+    toast.info('Logged out');
   };
 
   return (
